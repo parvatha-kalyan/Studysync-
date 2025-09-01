@@ -3,40 +3,222 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>StudySync</title>
+  <title>StudySync - Find Your Study Partner</title>
   <style>
-    body { font-family: Arial, sans-serif; background: #f0f8ff; margin: 0; padding: 0; }
-    header { background: #007BFF; color: white; padding: 15px; text-align: center; }
-    nav { margin: 10px; text-align: center; }
-    nav a { margin: 0 10px; text-decoration: none; color: #007BFF; font-weight: bold; }
-    .container { padding: 20px; text-align: center; }
-    button { padding: 10px 20px; margin: 10px; border: none; border-radius: 5px; cursor: pointer; }
-    .primary { background: #007BFF; color: white; }
-    .secondary { background: #e0e0e0; }
-    footer { background: #007BFF; color: white; text-align: center; padding: 10px; margin-top: 30px; }
+    body {
+      font-family: Arial, sans-serif;
+      background: #f5f9ff;
+      margin: 0;
+      padding: 0;
+    }
+    header {
+      background: #1E3A8A;
+      color: white;
+      padding: 15px 30px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+    header h1 { margin: 0; }
+    nav button {
+      margin-left: 15px;
+      padding: 8px 14px;
+      border: none;
+      background: white;
+      color: #1E3A8A;
+      border-radius: 6px;
+      cursor: pointer;
+    }
+    nav button:hover {
+      background: #2563EB;
+      color: white;
+    }
+    main {
+      padding: 30px;
+      text-align: center;
+    }
+    .form-section {
+      max-width: 400px;
+      margin: 20px auto;
+      padding: 20px;
+      background: white;
+      border-radius: 10px;
+      box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+      text-align: left;
+    }
+    .form-section label {
+      display: block;
+      margin-top: 10px;
+      font-weight: bold;
+    }
+    .form-section input, .form-section select {
+      width: 100%;
+      padding: 8px;
+      margin-top: 5px;
+      border: 1px solid #ccc;
+      border-radius: 5px;
+    }
+    .form-section button {
+      margin-top: 15px;
+      width: 100%;
+      padding: 10px;
+      border: none;
+      background: #2563EB;
+      color: white;
+      border-radius: 6px;
+      cursor: pointer;
+    }
+    .popup {
+      display: none;
+      position: fixed;
+      top: 0; left: 0; right: 0; bottom: 0;
+      background: rgba(0,0,0,0.6);
+      justify-content: center;
+      align-items: center;
+    }
+    .popup-content {
+      background: white;
+      padding: 20px;
+      border-radius: 10px;
+      width: 300px;
+      text-align: center;
+    }
+    .todo, .timer {
+      margin-top: 20px;
+      background: white;
+      padding: 15px;
+      border-radius: 10px;
+      box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+    }
   </style>
 </head>
 <body>
-  <header>
-    <h1>Welcome to StudySync</h1>
-    <p>Find your perfect study partner and collaborate online</p>
-  </header>
 
+<header>
+  <h1>StudySync</h1>
   <nav>
-    <a href="#">Home</a>
-    <a href="#">Preferences</a>
-    <a href="#">Premium</a>
-    <a href="#">Logout</a>
+    <button onclick="alert('Login system coming soon')">Login</button>
+    <button onclick="openPremium()">Premium</button>
+    <button onclick="changeLanguage()">🌐 Language</button>
+    <button onclick="logout()">Logout</button>
   </nav>
+</header>
 
-  <div class="container">
-    <h2>Start Learning Together</h2>
-    <button class="primary">Login</button>
-    <button class="secondary">Sign Up</button>
+<main>
+  <h2>Find Your Perfect Study Partner</h2>
+  <p>Enter your preferences below and start learning together.</p>
+
+  <div class="form-section">
+    <label>University:</label>
+    <input type="text" placeholder="Enter your university">
+
+    <label>Program:</label>
+    <select>
+      <option>BTech</option>
+      <option>BE</option>
+      <option>Others</option>
+    </select>
+
+    <label>Course/Branch:</label>
+    <select>
+      <option>CSE</option>
+      <option>ECE</option>
+      <option>EEE</option>
+    </select>
+
+    <label>Availability:</label>
+    <input type="text" placeholder="e.g. 6PM - 8PM">
+
+    <label>Language Preference:</label>
+    <select>
+      <option>English</option>
+      <option>Tamil</option>
+      <option>Hindi</option>
+      <option>Telugu</option>
+      <option>Malayalam</option>
+      <option>Kannada</option>
+    </select>
+
+    <button onclick="findPartner()">Enter</button>
   </div>
 
-  <footer>
-    <p>© 2025 StudySync - All rights reserved</p>
-  </footer>
+  <div class="todo">
+    <h3>📌 To-Do List</h3>
+    <input type="text" id="taskInput" placeholder="New Task">
+    <button onclick="addTask()">Add</button>
+    <ul id="taskList"></ul>
+  </div>
+
+  <div class="timer">
+    <h3>⏱ Study Timer</h3>
+    <input type="number" id="minutes" placeholder="Minutes">
+    <button onclick="startTimer()">Start</button>
+    <p id="timeDisplay">00:00</p>
+  </div>
+</main>
+
+<!-- Premium Popup -->
+<div class="popup" id="premiumPopup">
+  <div class="popup-content">
+    <h2>Premium Plan</h2>
+    <p>₹100/month – Unlimited Study Partners</p>
+    <button onclick="pay()">Pay Now</button>
+    <button onclick="closePremium()">Close</button>
+  </div>
+</div>
+
+<script>
+  function findPartner() {
+    alert("Searching for partners... (demo only)");
+  }
+
+  function openPremium() {
+    document.getElementById("premiumPopup").style.display = "flex";
+  }
+  function closePremium() {
+    document.getElementById("premiumPopup").style.display = "none";
+  }
+  function pay() {
+    alert("Payment system coming soon. If failed, refund in 7 business days.");
+  }
+
+  function changeLanguage() {
+    alert("Language switching coming soon.");
+  }
+
+  function logout() {
+    if (confirm("Are you sure you want to logout?")) {
+      alert("Logged out!");
+    }
+  }
+
+  // To-do List
+  function addTask() {
+    let input = document.getElementById("taskInput");
+    if (input.value.trim() === "") return;
+    let li = document.createElement("li");
+    li.textContent = input.value;
+    li.onclick = () => li.style.textDecoration = "line-through";
+    document.getElementById("taskList").appendChild(li);
+    input.value = "";
+  }
+
+  // Timer
+  let timerInterval;
+  function startTimer() {
+    clearInterval(timerInterval);
+    let minutes = parseInt(document.getElementById("minutes").value);
+    let time = minutes * 60;
+    timerInterval = setInterval(() => {
+      let m = Math.floor(time / 60);
+      let s = time % 60;
+      document.getElementById("timeDisplay").textContent = 
+        (m<10?"0":"")+m+":"+(s<10?"0":"")+s;
+      if (time <= 0) clearInterval(timerInterval);
+      time--;
+    }, 1000);
+  }
+</script>
+
 </body>
-      </html>
+</html>
